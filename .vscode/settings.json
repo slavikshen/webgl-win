@@ -1,0 +1,7 @@
+{
+    "editor.renderWhitespace": "boundary",
+    "editor.tabSize": 2,
+    "editor.autoClosingBrackets": "never",
+    "editor.autoClosingQuotes": "never",
+    "editor.insertSpaces": false
+}

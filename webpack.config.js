@@ -1,7 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const HtmlWebPackExternalsPlugin = require('html-webpack-externals-plugin')
+const HtmlWebPackExternalsPlugin = require('html-webpack-externals-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const merge = require('webpack-merge');
 
 var common = {
@@ -45,6 +46,7 @@ var common = {
 		]
 	},
 	plugins: [
+		new CleanWebpackPlugin(['dist']),
 		new webpack.ProvidePlugin({
 			$: "jquery",
 			jQuery: "jquery",
@@ -65,6 +67,7 @@ var common = {
 
 
 if( process.env.WEBPACK_MODE === 'production' ) {
+	// production 
 	module.exports = merge( common, {
 		plugins: [
 			new HtmlWebPackExternalsPlugin({
@@ -81,13 +84,25 @@ if( process.env.WEBPACK_MODE === 'production' ) {
 						global: 'ReactDOM',
 						// files: 'index.html',
 					},
+					{
+						module: 'pixi.js',
+						entry: 'dist/pixi.min.js',
+						global: 'PIXI',
+						// files: 'index.html',
+					},
 				],
 				hash: true,
-			})
+			}),
+			new webpack.HotModuleReplacementPlugin()
 		]
 	});
 } else {
 	module.exports = merge( common, {
+		devtool: 'inline-source-map',
+		devServer: {
+		contentBase: './dist',
+			hot: true
+		},
 		plugins: [
 			new HtmlWebPackExternalsPlugin({
 				externals: [
@@ -102,6 +117,12 @@ if( process.env.WEBPACK_MODE === 'production' ) {
 						entry: 'umd/react-dom.development.js',
 						global: 'ReactDOM',
 						// files: 'index.html'
+					},
+					{
+						module: 'pixi.js',
+						entry: 'dist/pixi.js',
+						global: 'PIXI',
+						// files: 'index.html',
 					},
 				],
 			})

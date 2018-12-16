@@ -1,4 +1,3 @@
-import TContainer from './js/three/TContainer';
+import MultiContainerTest from './js/pixi/MultiContainerTest';
 
-const wrapper = document.getElementById("workspace");
-wrapper ? ReactDOM.render(<TContainer />, wrapper) : false;
+ReactDOM.render(<MultiContainerTest />, document.getElementById("test"));
